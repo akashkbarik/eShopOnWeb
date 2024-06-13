@@ -40,10 +40,10 @@ stages:
 - stage: Deploy
   jobs:
   - job: Deploy_to_VM
-    dependsOn: Build_and_Publish
     steps:
     - task: DownloadPipelineArtifact@1  # Download build artifacts
       inputs:
+        buildType: 'current'
         artifactName: 'dotnet-app'
         targetPath: '$(System.DefaultWorkingDirectory)/app'
 
