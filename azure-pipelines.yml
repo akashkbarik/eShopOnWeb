@@ -52,3 +52,4 @@ stages:
         sudo apt-get install -y nginx  # Example: Install web server
         sudo cp -r $(System.DefaultWorkingDirectory)/app/* /var/www/html/  # Example: Copy files
         sudo systemctl restart nginx  # Example: Restart web server
+        
