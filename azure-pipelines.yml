@@ -58,7 +58,7 @@ stages:
   jobs:
   - job: copyfiles_to_azure
     steps:
-    - task: AzureFileCopy@2
+    - task: AzureFileCopy@6
       inputs:
         SourcePath: '/var/www/html/'
         azureSubscription: 'Free Trial(1)(a25d286e-68a4-4c24-8d88-d34e1a49ee20)'
