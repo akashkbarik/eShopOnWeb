@@ -53,10 +53,15 @@ stages:
         sudo cp -r $(System.DefaultWorkingDirectory)/app/* /var/www/html/  # Example: Copy files
         sudo systemctl restart nginx  # Example: Restart web server
 
+
+- stage: Copyfiles
+  jobs:
+  - job: copyfiles_to_azure
+    steps:
     - task: AzureFileCopy@6
       inputs:
         SourcePath: '/var/www/html/'
-        azureSubscription: 'Free Trial(a25d286e-68a4-4c24-8d88-d34e1a49ee20)'
+        azureSubscription: 'Free Trial(1)(a25d286e-68a4-4c24-8d88-d34e1a49ee20)'
         Destination: 'AzureBlob'
         storage: 'dotapp'
         ContainerName: 'appproj'
