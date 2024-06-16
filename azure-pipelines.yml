@@ -32,29 +32,26 @@ stages:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
         zipAfterPublish: true
 
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@1  # Publish build artifacts
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'dotnet-app'
 
 - stage: Deploy
   jobs:
   - job: Deploy_to_VM
     steps:
-     - task: DownloadBuildArtifacts@1
+     - task: DownloadPipelineArtifact@1  # Download build artifacts
        inputs:
-         buildType: 'current'
-         downloadType: 'single'
-         artifactName: 'drop'
-         downloadPath: '$(System.ArtifactStagingDirectory)'
+        artifactName: 'dotnet-app'
+        targetPath: '$(System.DefaultWorkingDirectory)/app'
 
      - script: |  # Script to deploy on VM (replace with your specific commands)
         sudo apt-get update
         sudo apt-get install -y nginx  # Example: Install web server
-        sudo cp -r $(System.ArtifactStagingDirectory)/app/* /var/www/html/  # Example: Copy files
+        sudo cp -r $(System.DefaultWorkingDirectory)/app/* /var/www/html/  # Example: Copy files
         sudo systemctl restart nginx  # Example: Restart web server
-
+        
 - stage: Publish_to_Blob  # Rename this stage if needed
   jobs:
   - job: Copy_Zip_to_Blob
