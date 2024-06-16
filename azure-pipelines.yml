@@ -61,5 +61,5 @@ stages:
      - script: |  # Bash script to copy the zip file
 
           # Copy the zip file to Azure Blob storage using azcopy
-          azcopy copy '/var/www/html/*.zip' 'https://dotapp.blob.core.windows.net/appproj' --recursive=false
+          sudo azcopy copy '/var/www/html/*.zip' 'https://dotapp.blob.core.windows.net/appproj' --recursive=false
         
