@@ -47,19 +47,23 @@ stages:
          buildType: 'current'
          downloadType: 'single'
          artifactName: 'drop'
-         downloadPath: '$(System.ArtifactsDirectory)'
+         downloadPath: '$(System.ArtifactStagingDirectory)'
 
      - script: |  # Script to deploy on VM (replace with your specific commands)
         sudo apt-get update
         sudo apt-get install -y nginx  # Example: Install web server
-        sudo cp -r $(System.ArtifactsDirectory)/app/* /var/www/html/  # Example: Copy files
+        sudo cp -r $(System.ArtifactStagingDirectory)/app/* /var/www/html/  # Example: Copy files
         sudo systemctl restart nginx  # Example: Restart web server
 
-     - task: AzureFileCopy@6
-       inputs:
-         SourcePath: '/var/www/html/'
-         azureSubscription: 'Free Trial(1)(a25d286e-68a4-4c24-8d88-d34e1a49ee20)'
-         Destination: 'AzureBlob'
-         storage: 'dotapp'
-         ContainerName: 'appproj'
+- stage: Publish_to_Blob  # Rename this stage if needed
+  jobs:
+  - job: Copy_Zip_to_Blob
+    steps:
+      - task: AzureFileCopy@2  # Use the appropriate task version
+        inputs:
+          SourcePath: '/var/www/html/'
+          azureSubscription: 'Free Trial(2)(a25d286e-68a4-4c24-8d88-d34e1a49ee20)'
+          Destination: 'AzureBlob'
+          storage: 'dotapp'
+          ContainerName: 'appproj'
         
