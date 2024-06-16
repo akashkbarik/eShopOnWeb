@@ -53,14 +53,19 @@ stages:
         sudo systemctl restart nginx  # Example: Restart web server
         
 - stage: Publish_to_Blob  # Rename this stage if needed
+
   jobs:
   - job: Copy_Zip_to_Blob
+
     steps:
-      - task: AzureFileCopy@2  # Use the appropriate task version
-        inputs:
-          SourcePath: '/var/www/html/'
-          azureSubscription: 'Free Trial(2)(a25d286e-68a4-4c24-8d88-d34e1a49ee20)'
-          Destination: 'AzureBlob'
-          storage: 'dotapp'
-          ContainerName: 'appproj'
+     - script: |  # Bash script to copy the zip file
+          # Install az cli (if not pre-installed)
+          curl -sL https://aka.ms/install-azure-cli-linux | bash
+
+          # Configure Azure authentication (use MSI or service connection)
+          # Option 1: Use Managed Service Identity (MSI)
+          # Option 2: Use az login command with service connection credentials (replace with your method)
+
+          # Copy the zip file to Azure Blob storage using azcopy
+          azcopy copy '/var/www/html/*.zip' 'https://dotapp.blob.core.windows.net/appproj' --recursive=false
         
