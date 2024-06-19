@@ -1,0 +1,24 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps: 
+ - task: NuGetCommand@2
+   inputs:
+     command: 'pack'
+     packagesToPack: '**/*.csproj'
+     versioningScheme: 'off'
+ - task: NuGetCommand@2
+   inputs:
+     command: 'push'
+     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+     nuGetFeedType: 'internal'
+     publishVstsFeed: '2a93c494-1bcb-4361-83ff-e7a3ed8717be/35fa5991-2e60-4399-843a-5b2236285c7e'
+     allowPackageConflicts: true
