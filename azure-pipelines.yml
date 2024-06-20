@@ -16,10 +16,10 @@ stages:
     - job: install_nuget
       steps:
       - task: NuGetToolInstaller@1
-      - task: NuGetCommand@2
+      - task: DotNetCoreCLI@2
         inputs:
           command: 'restore'
-          restoreSolution: '**/*.sln'
+          projects: '**/*.sln'
           feedsToUse: 'select'
           vstsFeed: '2a93c494-1bcb-4361-83ff-e7a3ed8717be/35fa5991-2e60-4399-843a-5b2236285c7e'
 - stage: Build
