@@ -56,7 +56,6 @@ stages:
 
   jobs:
   - job: Copy_Zip_to_Blob
-
     steps:
      - script: |  # Bash script to copy the zip file
           # Copy the zip file to Azure Blob storage using azcopy
