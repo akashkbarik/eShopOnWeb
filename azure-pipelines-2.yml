@@ -10,6 +10,11 @@ pool:
  name: 'vmagent'
 
 steps: 
+
+ - task: UseDotNet@2  # Use the appropriate .NET task for your project
+   inputs:
+     version: '8.x'  # Adjust version based on your .NET framework
+     includePreviewVersions: true  # Optional for preview versions
  - task: DotNetCoreCLI@2
    inputs:
      command: 'pack'
